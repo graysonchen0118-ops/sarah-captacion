@@ -168,7 +168,7 @@ export default function Configuracion() {
                   {g.fija ? (
                     <p>{g.texto}</p>
                   ) : (
-                    <textarea className="textarea" rows={3} value={g.texto} aria-label={g.cuando} onChange={(e) => setA({ ...a, guion: a.guion.map((x) => (x.id === g.id ? { ...x, texto: e.target.value } : x)) })} />
+                    <textarea className="textarea" rows={Math.max(2, Math.ceil(g.texto.length / 52))} value={g.texto} aria-label={g.cuando} onChange={(e) => setA({ ...a, guion: a.guion.map((x) => (x.id === g.id ? { ...x, texto: e.target.value } : x)) })} />
                   )}
                   {!g.fija && <small className="muted">{rellenar(g.texto)}</small>}
                 </div>
