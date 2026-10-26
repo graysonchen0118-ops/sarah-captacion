@@ -25,7 +25,7 @@ export default function Equipo() {
         </Boton>
       </div>
 
-      <Aviso tono="info">Cada comercial solo ve y gestiona sus propiedades: el permiso se comprueba en el servidor en cada consulta. La copia de los emails va solo al comercial de esa propiedad, y tú no vas en copia de las suyas.</Aviso>
+      <Aviso tono="info">Hoy sois {comerciales.filter((c) => c.activo).length}. Activar una cuenta más es un minuto desde «Nueva cuenta» y no cuesta nada. Cada comercial solo ve y gestiona sus propiedades: el permiso se comprueba en el servidor en cada consulta. La copia de los emails va solo al comercial de esa propiedad, y tú no vas en copia de las suyas.</Aviso>
 
       <div className="equipo">
         {comerciales.map((c, i) => {

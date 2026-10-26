@@ -141,7 +141,7 @@ export default function Avisos() {
             <PiggyBank size={18} />
             <div>
               <strong>Una captación cuesta unos 2,80 € en servicios</strong>
-              <small>IA alrededor de 0,90 €, dos llamadas de unos 7 minutos cerca de 1,60 € y WhatsApp unos céntimos. Si el vendedor lo resuelve todo por escrito, baja casi a la mitad.</small>
+              <small>IA alrededor de 0,90 €, dos llamadas de unos 7 minutos cerca de 1,60 € y WhatsApp unos céntimos. Si el vendedor lo resuelve todo por escrito, baja casi a la mitad. A vuestro ritmo, unas 10 altas al mes, todo junto ronda 45 a 60 € al mes.</small>
             </div>
           </div>
           <p className="muted pequeno" style={{ marginTop: 10 }}>

@@ -20,9 +20,6 @@ export const COMERCIALES: Comercial[] = [
   { id: "c1", nombre: "Laura Martín", email: "laura@costaserena.es", telefono: "+34 611 204 318", foto: RETRATOS[0], puedeAprobar: true, activo: true, desde: "2019" },
   { id: "c2", nombre: "Javier Soler", email: "javier@costaserena.es", telefono: "+34 622 518 040", foto: RETRATOS[1], puedeAprobar: false, activo: true, desde: "2021" },
   { id: "c3", nombre: "Marta Ivars", email: "marta@costaserena.es", telefono: "+34 633 910 772", foto: RETRATOS[2], puedeAprobar: false, activo: true, desde: "2022" },
-  { id: "c4", nombre: "Pablo Llopis", email: "pablo@costaserena.es", telefono: "+34 644 381 925", foto: RETRATOS[3], puedeAprobar: false, activo: true, desde: "2020" },
-  { id: "c5", nombre: "Lucía Cardona", email: "lucia@costaserena.es", telefono: "+34 655 072 614", foto: RETRATOS[4], puedeAprobar: true, activo: true, desde: "2018" },
-  { id: "c6", nombre: "Andrés Mompó", email: "andres@costaserena.es", telefono: "+34 666 447 103", foto: RETRATOS[5], puedeAprobar: false, activo: true, desde: "2023" },
 ];
 
 const REQ_BASE = ["DISPONIBLE", "Publicar en web", "Provincia y población"];
@@ -79,7 +76,18 @@ export const AJUSTES_BASE: Ajustes = {
   maxRecordatorios: 3,
   idiomas: ["Español", "Inglés", "Alemán"],
   saludoSarah:
-    "Hola, soy Sarah, la asistente de inteligencia artificial de Costa Serena Propiedades. Le escribo de parte de {comercial} por la venta de su vivienda en {zona}.",
+    "Hola, {vendedor}. Soy Sarah, la asistente de inteligencia artificial de {agencia}. Le escribo de parte de {comercial}, su comercial, por la venta de su {inmueble}.",
+  plantillaDocumento:
+    "Para terminar el anuncio solo nos falta {documento}. Si lo tiene, puede enviarme aquí el PDF o una foto. Si no lo tiene, dígamelo y se lo comento a {comercial}; no hace falta que lo busque hoy. Si prefiere que no le escribamos por WhatsApp, responda BAJA.",
+  guion: [
+    { id: "saludo", cuando: "Al empezar", texto: "Buenos días, ¿hablo con {vendedor}? Soy Sarah, la asistente de inteligencia artificial de {agencia}. La llamo de parte de {comercial} por la venta de su {inmueble}. Son unos cinco minutos para completar el anuncio. ¿Le viene bien ahora?" },
+    { id: "no-puede", cuando: "Si no puede", texto: "Sin problema. ¿A qué hora la llamo, o prefiere que se lo pregunte por WhatsApp?" },
+    { id: "preguntas", cuando: "Si puede", texto: "Solo lo que aún no consta en Mobilia, de una en una: ¿Cuántos dormitorios y baños tiene? ¿Tiene terraza o garaje?" },
+    { id: "confirmar", cuando: "Antes de terminar", texto: "Le repito para no equivocarme: {resumen}. ¿Es correcto?" },
+    { id: "manual", cuando: "Cierre, del manual", texto: "¿Hay alguna cosa más que tenga la propiedad, como piscina privada, chimenea, sauna o algo similar, que debamos tener en cuenta?", fija: true },
+    { id: "precio", cuando: "Si pregunta por el precio", texto: "Eso lo lleva {comercial}. Le dejo el recado y la llama él." },
+  ],
+  idiomaExtranjeros: "español",
   resumen: "diario",
   conservarCopiaDias: 7,
 };
@@ -92,9 +100,9 @@ export function alertasBase(ahora: number): Alerta[] {
       fecha: hace(2.2),
       asunto: "Resumen diario: todo funciona",
       cuerpo: [
-        "Ayer el sistema escribió y releyó 4 fichas en Mobilia, sin ningún fallo.",
-        "Sarah hizo 3 llamadas y envió 9 mensajes, todos dentro del horario y con la copia al comercial de cada propiedad.",
-        "El vigilante externo recibió 288 de 288 toques. Gasto del día: 3,10 €.",
+        "Ayer el sistema escribió y releyó 1 ficha en Mobilia, sin ningún fallo.",
+        "Sarah hizo 2 llamadas y envió 4 mensajes, todos dentro del horario y con la copia al comercial de cada propiedad.",
+        "El vigilante externo recibió 288 de 288 toques. Gasto del día: 2,60 €.",
       ],
       tipo: "resumen",
       afectadas: [],
@@ -105,12 +113,12 @@ export function alertasBase(ahora: number): Alerta[] {
       fecha: hace(19),
       asunto: "Captación bloqueada: falta la nota simple desde hace 24 horas",
       cuerpo: [
-        "REF 2412 no puede pasar al bloque D. Internos sin escritura o nota simple.",
+        "REF 2432 no puede pasar al bloque D. Internos sin escritura o nota simple.",
         "Sarah ya envió los 3 recordatorios permitidos. Hace falta que el comercial llame o que decidas una excepción.",
         "El resto de captaciones sigue funcionando.",
       ],
       tipo: "fallo",
-      afectadas: ["REF 2412"],
+      afectadas: ["REF 2432"],
       leida: true,
     },
     {

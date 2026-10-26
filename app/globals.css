@@ -3594,3 +3594,72 @@ p {
   color: #fff;
   font-size: 11.5px;
 }
+.guion {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.guion li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.guion li.fija {
+  background: var(--support-soft);
+  border-color: #f0d3c2;
+}
+.guion-n {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 12.5px;
+}
+.guion li.fija .guion-n {
+  background: var(--support);
+}
+.guion-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.guion-cuando {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.guion-cuando em {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--support-2);
+}
+.guion-txt p {
+  font-weight: 700;
+  color: var(--ink);
+}
+.guion-txt small {
+  font-size: 12.5px;
+  font-style: italic;
+}

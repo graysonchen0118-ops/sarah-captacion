@@ -68,7 +68,7 @@ export default function Robot() {
           <div className="re-datos">
             <span>
               <small>Fichas escritas hoy</small>
-              <strong>{listo ? Math.floor(hoy / 31) + 2 : "..."}</strong>
+              <strong>{listo ? 1 + Math.floor(robotLog.length / 30) : "..."}</strong>
             </span>
             <span>
               <small>Campos releídos hoy</small>

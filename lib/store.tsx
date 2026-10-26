@@ -5,6 +5,7 @@ import type { Ajustes, Alerta, Captacion, CanalContacto, Comercial, Familia, Pan
 import { AJUSTES_BASE, alertasBase, COMERCIALES, DIRECCION, pantallasBase, serviciosBase, canalesBase } from "./mock/agencia";
 import { crearCaptaciones, galeria, textosDe } from "./mock/captaciones";
 import { espera, revelaDireccion, uid } from "./format";
+import { RETRATOS } from "./photos";
 import { DOC_IMPRESCINDIBLES } from "./manual";
 
 export interface Toast {
@@ -40,7 +41,7 @@ export function bloqueosDisponible(c: Captacion): string[] {
   const conflictos = c.conflictos.filter((k) => k.elegida === undefined).length;
   if (conflictos) b.push(conflictos === 1 ? "Hay 1 dato en conflicto sin decidir" : `Hay ${conflictos} datos en conflicto sin decidir`);
   const pendGeneral = c.valores.filter((v) => v.bloque === "General" && v.estado === "pendiente").length;
-  if (pendGeneral) b.push(`${pendGeneral} datos del bloque General sin rellenar ni marcar «no consta»`);
+  if (pendGeneral) b.push(pendGeneral === 1 ? "1 dato del bloque General sin rellenar ni marcar «no consta»" : `${pendGeneral} datos del bloque General sin rellenar ni marcar «no consta»`);
   if (c.valores.some((v) => v.bloque === "D. Internos" && v.estado === "pendiente")) b.push("D. Internos incompleto");
   const faltan = DOC_IMPRESCINDIBLES.filter((t) => !c.documentos.some((d) => d.tipo === t && d.estado === "subido"));
   if (faltan.length) b.push(`Falta: ${faltan.join(", ").toLowerCase()}`);
@@ -48,6 +49,10 @@ export function bloqueosDisponible(c: Captacion): string[] {
   if (fotos < 25) b.push(fotos === 24 ? "24 fotos: falta 1 para llegar a 25" : `${fotos} fotos de 25 como mínimo`);
   const ult = c.fotos[c.fotos.length - 1];
   if (c.fotos.length && ult?.tipo !== "local") b.push("La foto del local no está la última");
+  if (c.paso < 7) {
+    if (!c.anuncioAprobadoVendedor) b.push("Textos, SEO y aprobación del vendedor todavía por llegar");
+    return b;
+  }
   const fuga = [c.textos.titulo, c.textos.corta, c.textos.ampliada, c.textos.seoTitulo, c.textos.seoDesc, c.textos.seoUrl].flatMap((t) => revelaDireccion(t, c));
   if (fuga.length) b.push(`Los textos dicen ${Array.from(new Set(fuga)).join(" y ")}`);
   if (c.textos.titulo.length > 50) b.push("Título de más de 50 caracteres");
@@ -554,8 +559,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const crearComercial = useCallback(async (nombre: string, email: string) => {
     await espera(800);
-    const fotos = COMERCIALES.map((c) => c.foto);
-    setComerciales((cs) => [...cs, { id: uid("c"), nombre, email, telefono: "", foto: fotos[cs.length % fotos.length], puedeAprobar: false, activo: true, desde: "2026" }]);
+    setComerciales((cs) => [...cs, { id: uid("c"), nombre, email, telefono: "", foto: RETRATOS[cs.length % RETRATOS.length], puedeAprobar: false, activo: true, desde: "2026" }]);
     toast(`Cuenta creada para ${nombre}. Le llega la invitación por email`);
   }, [toast]);
 

@@ -234,6 +234,9 @@ export interface Ajustes {
   maxRecordatorios: number;
   idiomas: string[];
   saludoSarah: string;
+  plantillaDocumento: string;
+  guion: { id: string; cuando: string; texto: string; fija?: boolean }[];
+  idiomaExtranjeros: "español" | "suyo";
   resumen: "diario" | "semanal";
   conservarCopiaDias: number;
 }

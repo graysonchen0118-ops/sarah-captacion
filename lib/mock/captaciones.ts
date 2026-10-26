@@ -2,7 +2,7 @@ import type { Captacion, CanalContacto, Conflicto, Documento, Estado, Familia, F
 import { FOTOS, u } from "../photos";
 import { GENERAL } from "../manual";
 import { canalesBase, COMERCIALES, MARCA } from "./agencia";
-import { mulberry32 } from "../format";
+import { horaEspana, mulberry32 } from "../format";
 
 // Fichas de captación de una agencia de la Costa Blanca. Todo inventado, con forma de datos reales.
 
@@ -38,47 +38,52 @@ const S = (
 
 // Los siete expedientes con más historia van primero.
 const SEMILLAS: Semilla[] = [
+  // en curso: con 2 o 3 altas por semana, unas diez abiertas a la vez
   S("REF 2431", "Casa o Villa", "Villa", "Jávea", "Cap Martí", "Calle Lepanto", "14", "", "", "03730", 685000, 128, 3, 2, "c1", "Gerhard Baumann", "g.baumann@gmx.de", "+34 619 402 117", "revisar", 10, "Cliente conocido", 70),
   S("REF 2436", "Piso", "Ático", "Altea", "Cap Negret", "Avenida del Mediterráneo", "41", "6", "B", "03590", 459000, 112, 2, 2, "c2", "Susan Whitaker", "susan.whitaker@btinternet.com", "+34 634 118 905", "esperando", 2, "Idealista", 30),
-  S("REF 2412", "Piso", "Piso", "Dénia", "Les Rotes", "Carretera de Les Rotes", "88", "1", "A", "03700", 312000, 94, 2, 1, "c4", "Vicente Bertomeu", "vbertomeu@gmail.com", "+34 652 301 448", "documentacion", 4, "Llamada", 120),
-  S("REF 2440", "Casa o Villa", "Casa adosada", "Moraira", "El Portet", "Calle Cometa", "7", "", "", "03724", 398000, 146, 3, 3, "c5", "Rosa Mengual", "rosamengual@hotmail.com", "+34 670 552 091", "contactando", 3, "Cartel", 9),
+  S("REF 2412", "Piso", "Piso", "Dénia", "Les Rotes", "Carretera de Les Rotes", "88", "1", "A", "03700", 312000, 94, 3, 2, "c2", "Carmen López", "carmen.lopez.denia@gmail.com", "+34 652 301 448", "documentacion", 5, "Llamada", 120),
+  S("REF 2440", "Casa o Villa", "Casa adosada", "Moraira", "El Portet", "Calle Cometa", "7", "", "", "03724", 398000, 146, 3, 3, "c1", "Rosa Mengual", "rosamengual@hotmail.com", "+34 670 552 091", "contactando", 3, "Cartel", 9),
   S("REF 2427", "Piso", "Piso", "Calpe", "Puerto Blanco", "Calle Gabriel Miró", "22", "3", "C", "03710", 274000, 86, 2, 2, "c3", "Pieter van Dijk", "pvandijk@ziggo.nl", "+34 611 776 230", "revisar", 10, "Oficina", 52),
-  S("REF 2419", "Casa o Villa", "Villa", "Benissa", "Fanadix", "Partida Fanadix", "112", "", "", "03720", 940000, 236, 4, 4, "c6", "Isabel Morant", "isabel.morant@gmail.com", "+34 699 210 384", "pausada", 2, "Colaborador", 96),
-  S("REF 2405", "Casa o Villa", "Villa", "Jávea", "Tosalet", "Calle Holanda", "5", "", "", "03730", 1240000, 268, 5, 4, "c1", "Hans Vogel", "hvogel@t-online.de", "+34 627 488 512", "publicada", 11, "Kyero", 260),
-
+  S("REF 2419", "Casa o Villa", "Villa", "Benissa", "Fanadix", "Partida Fanadix", "112", "", "", "03720", 940000, 236, 4, 4, "c3", "Isabel Morant", "isabel.morant@gmail.com", "+34 699 210 384", "pausada", 2, "Colaborador", 96),
   S("REF 2441", "Piso", "Apartamento", "Jávea", "Arenal", "Avenida del Plá", "126", "2", "D", "03730", 245000, 72, 2, 1, "c2", "Amparo Signes", "amparo.signes@gmail.com", "+34 645 223 870", "abierta", 0, "Idealista", 2),
-  S("REF 2439", "Casa o Villa", "Villa", "Dénia", "Montgó", "Camino de la Colonia", "31", "", "", "03700", 575000, 182, 4, 3, "c4", "Thomas Fischer", "t.fischer@web.de", "+34 698 340 217", "contactando", 2, "Llamada", 6),
-  S("REF 2438", "Piso", "Dúplex", "Altea", "Casco antiguo", "Calle Mayor", "9", "2", "A", "03590", 365000, 118, 3, 2, "c3", "Carmen Llinares", "c.llinares@gmail.com", "+34 618 902 553", "esperando", 2, "Oficina", 22),
-  S("REF 2437", "Casa o Villa", "Casa", "Teulada", "Cumbre del Sol", "Calle Ibiza", "18", "", "", "03726", 720000, 204, 4, 3, "c6", "Mark Hennessy", "markhennessy@gmail.com", "+34 600 812 340", "documentacion", 4, "Cliente conocido", 40),
-  S("REF 2435", "Piso", "Piso", "Calpe", "Centro", "Avenida Gabriel Miró", "45", "4", "B", "03710", 198000, 78, 2, 1, "c5", "José Antonio Ivorra", "jaivorra@gmail.com", "+34 659 113 762", "revisar", 10, "Cartel", 44),
-  S("REF 2434", "Casa o Villa", "Villa", "Moraira", "Pla del Mar", "Calle Albatros", "3", "", "", "03724", 1095000, 251, 4, 4, "c1", "Elisabeth Kramer", "elisabeth.kramer@gmx.at", "+34 628 019 457", "esperando", 2, "JamesEdition", 33),
-  S("REF 2433", "Piso", "Ático", "Dénia", "Las Marinas", "Carretera de Las Marinas", "204", "5", "A", "03700", 389000, 104, 3, 2, "c2", "Ana Mompó", "ana.mompo@gmail.com", "+34 664 297 015", "contactando", 3, "Idealista", 11),
+  S("REF 2433", "Piso", "Ático", "Dénia", "Las Marinas", "Carretera de Las Marinas", "204", "5", "A", "03700", 389000, 104, 3, 2, "c1", "Ana Mompó", "ana.mompo@gmail.com", "+34 664 297 015", "contactando", 3, "Idealista", 11),
   S("REF 2432", "Casa o Villa", "Casa adosada", "Jávea", "Puerto", "Calle Toledo", "12", "", "", "03730", 419000, 132, 3, 2, "c3", "Francisco Bas", "fbas@telefonica.net", "+34 619 553 802", "documentacion", 4, "Llamada", 58),
-  S("REF 2430", "Piso", "Apartamento", "Altea", "Altea Hills", "Calle Suiza", "6", "1", "C", "03590", 310000, 89, 2, 2, "c4", "Linda Johansson", "linda.johansson@telia.se", "+34 676 401 298", "revisar", 10, "Kyero", 77),
-  S("REF 2429", "Casa o Villa", "Villa", "Benissa", "La Fustera", "Calle Alicante", "27", "", "", "03720", 615000, 176, 3, 3, "c5", "Robert Sinclair", "rsinclair@outlook.com", "+34 607 318 449", "publicada", 11, "ThinkSpain", 140),
-  S("REF 2428", "Piso", "Piso", "Jávea", "Arenal", "Avenida de Ultramar", "53", "3", "B", "03730", 289000, 81, 2, 1, "c6", "Marisa Cardona", "marisa.cardona@gmail.com", "+34 680 233 145", "esperando", 2, "Oficina", 27),
-  S("REF 2426", "Casa o Villa", "Villa", "Calpe", "Maryvilla", "Calle Puerto Rico", "40", "", "", "03710", 830000, 224, 5, 4, "c1", "Peter Wouters", "peter.wouters@telenet.be", "+34 622 108 774", "contactando", 2, "Colaborador", 14),
-  S("REF 2425", "Piso", "Dúplex", "Moraira", "Centro", "Calle Doctor Calatayud", "16", "1", "A", "03724", 335000, 102, 3, 2, "c2", "Teresa Ferrer", "teresaferrer@gmail.com", "+34 635 820 196", "publicada", 11, "Cartel", 190),
-  S("REF 2424", "Casa o Villa", "Casa", "Dénia", "Centro", "Calle Loreto", "28", "", "", "03700", 455000, 160, 4, 2, "c3", "Joan Ripoll", "joanripoll@gmail.com", "+34 661 744 030", "abierta", 0, "Llamada", 1),
-  S("REF 2423", "Piso", "Apartamento", "Calpe", "Playa Arenal-Bol", "Avenida de los Ejércitos Españoles", "17", "8", "D", "03710", 268000, 70, 1, 1, "c4", "Karin Meyer", "karin.meyer@web.de", "+34 674 912 503", "esperando", 2, "Idealista", 18),
-  S("REF 2422", "Casa o Villa", "Villa", "Jávea", "Portitxol", "Camino Cala Blanca", "9", "", "", "03730", 1480000, 290, 5, 5, "c5", "Daniel Hughes", "dhughes@icloud.com", "+34 609 671 228", "revisar", 10, "LuxuryEstate", 61),
-  S("REF 2421", "Piso", "Piso", "Altea", "Centro", "Calle Conde de Altea", "34", "2", "B", "03590", 239000, 84, 3, 1, "c6", "Lorena Vives", "lorena.vives@gmail.com", "+34 627 301 668", "documentacion", 4, "Oficina", 66),
-  S("REF 2420", "Casa o Villa", "Casa adosada", "Benissa", "Benissa Costa", "Calle Rosa de los Vientos", "21", "", "", "03720", 349000, 128, 3, 2, "c1", "Wim de Boer", "wimdeboer@kpnmail.nl", "+34 652 445 017", "publicada", 11, "Kyero", 230),
+  S("REF 2416", "Piso", "Piso", "Jávea", "Centro", "Calle Virgen del Loreto", "8", "1", "B", "03730", 179000, 74, 2, 1, "c3", "Rafael Mas", "rafamas@gmail.com", "+34 666 125 330", "contactando", 3, "Cartel", 20),
+
+  // publicadas en las últimas seis semanas, a dos o tres por semana
+  S("REF 2439", "Casa o Villa", "Villa", "Dénia", "Montgó", "Camino de la Colonia", "31", "", "", "03700", 575000, 182, 4, 3, "c1", "Thomas Fischer", "t.fischer@web.de", "+34 698 340 217", "publicada", 11, "Llamada", 180),
+  S("REF 2437", "Casa o Villa", "Casa", "Teulada", "Cumbre del Sol", "Calle Ibiza", "18", "", "", "03726", 720000, 204, 4, 3, "c3", "Mark Hennessy", "markhennessy@gmail.com", "+34 600 812 340", "publicada", 11, "Cliente conocido", 230),
+  S("REF 2405", "Casa o Villa", "Villa", "Jávea", "Tosalet", "Calle Holanda", "5", "", "", "03730", 1240000, 268, 5, 4, "c1", "Hans Vogel", "hvogel@t-online.de", "+34 627 488 512", "publicada", 11, "Kyero", 260),
+  S("REF 2429", "Casa o Villa", "Villa", "Benissa", "La Fustera", "Calle Alicante", "27", "", "", "03720", 615000, 176, 3, 3, "c2", "Robert Sinclair", "rsinclair@outlook.com", "+34 607 318 449", "publicada", 11, "ThinkSpain", 300),
+  S("REF 2435", "Piso", "Piso", "Calpe", "Centro", "Avenida Gabriel Miró", "45", "4", "B", "03710", 198000, 78, 2, 1, "c2", "José Antonio Ivorra", "jaivorra@gmail.com", "+34 659 113 762", "publicada", 11, "Cartel", 350),
+  S("REF 2425", "Piso", "Dúplex", "Moraira", "Centro", "Calle Doctor Calatayud", "16", "1", "A", "03724", 335000, 102, 3, 2, "c2", "Teresa Ferrer", "teresaferrer@gmail.com", "+34 635 820 196", "publicada", 11, "Cartel", 400),
+  S("REF 2434", "Casa o Villa", "Villa", "Moraira", "Pla del Mar", "Calle Albatros", "3", "", "", "03724", 1095000, 251, 4, 4, "c1", "Elisabeth Kramer", "elisabeth.kramer@gmx.at", "+34 628 019 457", "publicada", 11, "JamesEdition", 470),
+  S("REF 2420", "Casa o Villa", "Casa adosada", "Benissa", "Benissa Costa", "Calle Rosa de los Vientos", "21", "", "", "03720", 349000, 128, 3, 2, "c1", "Wim de Boer", "wimdeboer@kpnmail.nl", "+34 652 445 017", "publicada", 11, "Kyero", 520),
+  S("REF 2430", "Piso", "Apartamento", "Altea", "Altea Hills", "Calle Suiza", "6", "1", "C", "03590", 310000, 89, 2, 2, "c3", "Linda Johansson", "linda.johansson@telia.se", "+34 676 401 298", "publicada", 11, "Kyero", 560),
+  S("REF 2417", "Casa o Villa", "Villa", "Moraira", "Cometa", "Calle Benimeit", "45", "", "", "03724", 765000, 198, 4, 3, "c3", "Michael Brandt", "mbrandt@gmx.de", "+34 619 230 875", "publicada", 11, "ImmoScout24", 640),
+  S("REF 2422", "Casa o Villa", "Villa", "Jávea", "Portitxol", "Camino Cala Blanca", "9", "", "", "03730", 1480000, 290, 5, 5, "c2", "Daniel Hughes", "dhughes@icloud.com", "+34 609 671 228", "publicada", 11, "LuxuryEstate", 700),
+  S("REF 2410", "Casa o Villa", "Villa", "Dénia", "Las Rotas", "Calle Venus", "24", "", "", "03700", 689000, 189, 4, 3, "c3", "Graham Baxter", "grahambaxter@sky.com", "+34 607 662 190", "publicada", 11, "RightMove", 760),
+  S("REF 2414", "Piso", "Ático", "Calpe", "Puerto Blanco", "Calle Mozart", "2", "7", "A", "03710", 415000, 109, 3, 2, "c1", "Andreas Huber", "andreas.huber@bluewin.ch", "+34 612 590 344", "publicada", 11, "Indomio", 820),
+  S("REF 2407", "Piso", "Piso", "Calpe", "Centro", "Calle Libertad", "12", "5", "A", "03710", 215000, 83, 2, 1, "c2", "Mercedes Giner", "mercedesginer@gmail.com", "+34 662 509 341", "publicada", 11, "Oficina", 880),
+  S("REF 2406", "Casa o Villa", "Villa", "Benissa", "Cala Advocat", "Calle Corb Marí", "8", "", "", "03720", 1150000, 276, 5, 4, "c3", "Jean Dupont", "jean.dupont@free.fr", "+34 690 213 876", "publicada", 11, "JamesEdition", 950),
   S("REF 2418", "Piso", "Apartamento", "Dénia", "Puerto", "Calle Sandunga", "11", "3", "A", "03700", 279000, 76, 2, 2, "c2", "Ingrid Larsen", "ingrid.larsen@gmail.com", "+34 638 507 921", "cancelada", 2, "Idealista", 150),
-  S("REF 2417", "Casa o Villa", "Villa", "Moraira", "Cometa", "Calle Benimeit", "45", "", "", "03724", 765000, 198, 4, 3, "c3", "Michael Brandt", "mbrandt@gmx.de", "+34 619 230 875", "publicada", 11, "ImmoScout24", 280),
-  S("REF 2416", "Piso", "Piso", "Jávea", "Centro", "Calle Virgen del Loreto", "8", "1", "B", "03730", 179000, 74, 2, 1, "c4", "Rafael Mas", "rafamas@gmail.com", "+34 666 125 330", "contactando", 3, "Cartel", 20),
-  S("REF 2415", "Casa o Villa", "Villa", "Teulada", "Pla del Mar", "Calle Moraira", "71", "", "", "03725", 980000, 240, 4, 4, "c5", "Sophie Laurent", "sophie.laurent@orange.fr", "+34 690 448 271", "esperando", 2, "Properstar", 36),
-  S("REF 2414", "Piso", "Ático", "Calpe", "Puerto Blanco", "Calle Mozart", "2", "7", "A", "03710", 415000, 109, 3, 2, "c6", "Andreas Huber", "andreas.huber@bluewin.ch", "+34 612 590 344", "revisar", 10, "Indomio", 48),
-  S("REF 2413", "Casa o Villa", "Casa", "Altea", "Sierra de Altea", "Partida Cap Blanc", "15", "", "", "03590", 525000, 170, 3, 2, "c1", "Nuria Cortés", "nuria.cortes@gmail.com", "+34 633 207 864", "documentacion", 4, "Oficina", 84),
-  S("REF 2411", "Piso", "Piso", "Benissa", "Centro", "Avenida de la Llibertat", "19", "2", "C", "03720", 158000, 88, 3, 1, "c2", "Salvador Pastor", "spastor@gmail.com", "+34 670 118 225", "abierta", 0, "Llamada", 3),
-  S("REF 2410", "Casa o Villa", "Villa", "Dénia", "Las Rotas", "Calle Venus", "24", "", "", "03700", 689000, 189, 4, 3, "c3", "Graham Baxter", "grahambaxter@sky.com", "+34 607 662 190", "publicada", 11, "RightMove", 310),
-  S("REF 2409", "Piso", "Apartamento", "Moraira", "El Portet", "Calle Mar Egeo", "4", "1", "B", "03724", 342000, 79, 2, 2, "c4", "Eva Zaragoza", "eva.zaragoza@gmail.com", "+34 619 880 413", "esperando", 2, "Idealista", 25),
-  S("REF 2408", "Casa o Villa", "Casa adosada", "Jávea", "Montgó", "Calle Ronda Norte", "33", "", "", "03730", 368000, 140, 3, 2, "c5", "Klaus Richter", "k.richter@t-online.de", "+34 645 302 978", "contactando", 2, "Fotocasa", 8),
-  S("REF 2407", "Piso", "Piso", "Calpe", "Centro", "Calle Libertad", "12", "5", "A", "03710", 215000, 83, 2, 1, "c6", "Mercedes Giner", "mercedesginer@gmail.com", "+34 662 509 341", "publicada", 11, "Oficina", 205),
-  S("REF 2406", "Casa o Villa", "Villa", "Benissa", "Cala Advocat", "Calle Corb Marí", "8", "", "", "03720", 1150000, 276, 5, 4, "c2", "Jean Dupont", "jean.dupont@free.fr", "+34 690 213 876", "revisar", 10, "JamesEdition", 55),
 ];
 
 const DIAS = 86400000;
+
+/** el siguiente momento dentro del horario de contacto: lunes a viernes, de 10:00 a 19:30 en España */
+export function siguienteHueco(desde: number) {
+  const dfDia = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "Europe/Madrid" });
+  let t = Math.ceil(desde / 1800000) * 1800000;
+  for (let i = 0; i < 400; i++) {
+    const h = horaEspana(t);
+    const d = dfDia.format(new Date(t));
+    if (d !== "Sat" && d !== "Sun" && h >= 10 && h <= 19.5) return new Date(t).toISOString();
+    t += 1800000;
+  }
+  return new Date(desde).toISOString();
+}
+
 
 function fotoPortada(s: Semilla, i: number) {
   const pool = s.familia === "Piso" ? FOTOS.pisos : FOTOS.villas;
@@ -276,7 +281,7 @@ export function textosDe(s: { tipo: string; poblacion: string; zona: string; m2:
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
-  const seoDesc = `${s.tipo} de ${s.m2} m² en ${s.zona}, ${s.poblacion}: ${s.hab} dormitorios, ${s.banos} baños${casa ? ", jardín y piscina privada" : ", terraza y garaje"}, cerca de la playa.`;
+  const seoDesc = `${s.tipo} de ${s.m2} m² en ${s.zona}, ${s.poblacion}: ${s.hab} dormitorios, ${s.banos} baños${casa ? ", jardín y piscina privada" : ", terraza y garaje"}, cerca de la playa y de todos los servicios.`;
   return { titulo, corta, ampliada, seoTitulo, seoUrl: slug, seoDesc };
 }
 
@@ -351,7 +356,7 @@ export function crearCaptaciones(ahora: number): Captacion[] {
       paso: s.paso,
       creada: new Date(base).toISOString(),
       actualizada: new Date(Math.min(ahora - 60000 * (5 + i * 7), base + 40 * 3600000)).toISOString(),
-      proximoContacto: s.estado === "esperando" || s.estado === "contactando" ? new Date(ahora + (1 + (i % 5)) * 3600000).toISOString() : undefined,
+      proximoContacto: s.estado === "esperando" || s.estado === "contactando" ? siguienteHueco(ahora + (1 + (i % 5)) * 3600000) : undefined,
       valores,
       conflictos: [],
       documentos: docs(s, base),
@@ -482,12 +487,44 @@ function especial(c: Captacion, ahora: number, comercial: string, ccEmail: strin
       { id: "a4", canal: "whatsapp", de: "vendedor", fecha: h(8), texto: "Hola Sarah, estoy en Inglaterra hasta el jueves. Les mando la escritura cuando vuelva. El ático tiene 112 metros y dos terrazas." },
       { id: "a5", canal: "whatsapp", de: "sarah", fecha: h(7.9), plantilla: "Confirmación de recepción", texto: "Gracias, Susan. Apunto los 112 metros y las dos terrazas. Le recuerdo lo de la escritura el viernes por la mañana." },
     ];
-    c.proximoContacto = new Date(ahora + 2.5 * 3600000).toISOString();
+    c.proximoContacto = siguienteHueco(ahora + 2.5 * 3600000);
   }
-  if (c.ref === "REF 2412") {
+  if (c.ref === "REF 2432") {
     c.recordatorios = 3;
     c.llamadas = 2;
     c.motivo = "Captación bloqueada: falta la nota simple. Sarah llegó al límite de 3 recordatorios y dejó de insistir.";
+  }
+  if (c.ref === "REF 2412") {
+    // el ejemplo de Carmen: Sarah pide el certificado energético con la plantilla de la agencia
+    c.llamadas = 1;
+    c.recordatorios = 1;
+    c.documentos = c.documentos.map((d) =>
+      d.tipo === "Certificado energético"
+        ? { ...d, estado: "pendiente", canal: "whatsapp", fecha: undefined, archivo: undefined, extraidos: undefined, nota: "Pedido por WhatsApp. Lo tiene el hijo de la vendedora." }
+        : d,
+    );
+    const cert = c.valores.find((v) => v.campo === "Certificado energético");
+    if (cert) {
+      cert.valor = "";
+      cert.estado = "pendiente";
+      cert.detalle = "Sarah lo pidió por WhatsApp";
+    }
+    c.mensajes = [
+      c.mensajes[0],
+      { id: "cl1", canal: "sistema", de: "sistema", fecha: h(118), texto: "El sistema revisó Mobilia: la ficha ya tiene tipo, alias y campaña. Faltan 24 datos del bloque General y 5 documentos." },
+      { id: "cl2", canal: "llamada", de: "sarah", fecha: h(116), duracion: "6:20", texto: "Aviso de IA al empezar, como en el guion. Carmen confirmó tres dormitorios, dos baños y terraza, y lo repitió antes de colgar. A la pregunta del manual añadió armarios empotrados y trastero. El certificado energético no lo tenía a mano." },
+      { id: "cl3", canal: "email", de: "sarah", fecha: h(115.8), cc: ccEmail, texto: "Gracias por su tiempo, Carmen. Le dejo el enlace al portal seguro para subir el DNI y la escritura. El DNI, solo por ese enlace, nunca por WhatsApp ni por correo." },
+      { id: "cl4", canal: "sistema", de: "sistema", fecha: h(60), texto: "DNI y escritura recibidos por el portal seguro. Nota simple, IBI y basuras recibidos por email. Todo subido a Mobilia y comprobado." },
+      {
+        id: "cl5", canal: "whatsapp", de: "sarah", fecha: h(26), plantilla: "Pedir un documento",
+        texto: `Hola, Carmen. Soy Sarah, la asistente de inteligencia artificial de ${MARCA.agencia}. Le escribo de parte de Javier, su comercial, por la venta de su piso. Para terminar el anuncio solo nos falta el certificado energético. Si lo tiene, puede enviarme aquí el PDF o una foto. Si no lo tiene, dígamelo y se lo comento a Javier; no hace falta que lo busque hoy. Si prefiere que no le escribamos por WhatsApp, responda BAJA.`,
+      },
+      { id: "cl6", canal: "whatsapp", de: "vendedor", fecha: h(23), texto: "Hola Sarah, lo tiene mi hijo. Se lo pido y se lo mando esta semana." },
+      { id: "cl7", canal: "whatsapp", de: "sarah", fecha: h(22.9), plantilla: "Confirmación", texto: "Perfecto, Carmen, gracias. Queda anotado. Si el viernes todavía no lo tiene, le escribo una sola vez más para recordárselo." },
+    ];
+    c.registro.push({ id: "cl-r1", fecha: h(26), quien: "Sistema", accion: "Sarah pidió el certificado energético por WhatsApp con la plantilla «Pedir un documento». Copia del resumen al comercial", resultado: "enviado" });
+    c.destacado = "NO SE PERMITE PUBLICAR. Falta el certificado energético: lo pidió Sarah por WhatsApp y la vendedora lo envía esta semana.";
+    c.proximoContacto = siguienteHueco(ahora + 2.6 * 86400000);
   }
   if (c.ref === "REF 2419") {
     c.estadoAntesPausa = "esperando";
